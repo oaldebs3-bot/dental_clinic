@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../services/auth_service.dart';
+import '../../providers/auth_provider.dart';
 import '../../providers/supabase_providers.dart';
 import '../../widgets/dental_colors.dart';
 import '../../widgets/confirm_dialog.dart';
@@ -20,7 +20,9 @@ class _DoctorDashboardScreenState extends ConsumerState<DoctorDashboardScreen> {
   Future<void> _onLogout() async {
     final confirmed = await showConfirmDialog(context, title: 'تسجيل الخروج', message: 'هل تريد تسجيل الخروج؟');
     if (!confirmed || !context.mounted) return;
-    await AuthService().signOut();
+    try {
+      await ref.read(authServiceProvider).signOut();
+    } catch (_) {}
     if (context.mounted) context.go('/login');
   }
 
