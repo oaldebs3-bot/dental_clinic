@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import '../models/patient.dart';
 import '../models/appointment.dart';
 
@@ -11,6 +11,7 @@ class OfflineService {
   static const String _pendingOpsBox = 'pending_operations';
 
   Future<void> initialize() async {
+    await Hive.initFlutter();
     await Hive.openBox<String>(_patientsBox);
     await Hive.openBox<String>(_appointmentsBox);
     await Hive.openBox<String>(_recordsBox);
