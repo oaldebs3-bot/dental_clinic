@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'widgets/dental_colors.dart';
@@ -10,16 +9,18 @@ import 'router/app_router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
   try {
     await SupabaseService().initialize();
+  } catch (_) {}
+
+  try {
     await OfflineService().initialize();
+  } catch (_) {}
+
+  try {
     await initializeDateFormatting('ar', null);
-  } catch (e) {
-    runApp(ProviderScope(child: ErrorApp(error: e.toString())));
-    return;
-  }
+  } catch (_) {}
 
   runApp(const ProviderScope(child: DentalClinicApp()));
 }
