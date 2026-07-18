@@ -33,6 +33,12 @@ class DentalClinicApp extends ConsumerWidget {
     return MaterialApp.router(
       title: AppConstants.appName,
       debugShowCheckedModeBanner: false,
+      locale: const Locale('ar'),
+      supportedLocales: const [Locale('ar')],
+      localizationsDelegates: const [
+        DefaultMaterialLocalizations.delegate,
+        DefaultWidgetsLocalizations.delegate,
+      ],
       theme: ThemeData(
         useMaterial3: true,
         brightness: Brightness.dark,
@@ -61,15 +67,7 @@ class DentalClinicApp extends ConsumerWidget {
             textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
           ),
         ),
-        textTheme: const TextTheme(
-          headlineLarge: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-          headlineMedium: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-          titleLarge: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
-          titleMedium: TextStyle(color: Colors.white),
-          bodyLarge: TextStyle(color: Colors.white),
-          bodyMedium: TextStyle(color: Colors.white70),
-          labelLarge: TextStyle(color: Colors.white70),
-        ),
+
       ),
       routerConfig: router,
     );
@@ -93,17 +91,9 @@ class ErrorApp extends StatelessWidget {
               children: [
                 const Icon(Icons.error_outline, color: Colors.red, size: 64),
                 const SizedBox(height: 16),
-                const Text(
-                  'فشل الاتصال بقاعدة البيانات',
-                  style: TextStyle(color: Colors.white, fontSize: 20),
-                ),
+                const Text('فشل الاتصال بقاعدة البيانات', style: TextStyle(color: Colors.white, fontSize: 20)),
                 const SizedBox(height: 8),
-                Text(
-                  error,
-                  textDirection: TextDirection.ltr,
-                  style: const TextStyle(color: Colors.grey, fontSize: 12),
-                  textAlign: TextAlign.center,
-                ),
+                Text(error, textDirection: TextDirection.ltr, style: const TextStyle(color: Colors.grey, fontSize: 12), textAlign: TextAlign.center),
               ],
             ),
           ),
