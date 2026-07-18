@@ -53,13 +53,13 @@ jobs:
         run: flutter pub get
 
       - name: Build Windows
-        run: flutter build windows --debug
+        run: flutter build windows --release
 
       - name: List build output
-        run: Get-ChildItem -LiteralPath "build/windows/x64/runner/Debug" -Recurse | Select-Object FullName
+        run: Get-ChildItem -LiteralPath "build/windows/x64/runner/Release" -Recurse | Select-Object FullName
 
       - name: Upload Windows
         uses: actions/upload-artifact@v4
         with:
           name: dental-clinic-windows
-          path: build/windows/x64/runner/Debug/
+          path: build/windows/x64/runner/Release/
