@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../providers/auth_provider.dart' show authServiceProvider;
-import '../../core/constants.dart';
+import '../../widgets/app_logo.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -81,26 +81,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Column(
               children: [
-                const SizedBox(height: 48),
-                Container(
-                  width: 88, height: 88,
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.15),
-                    borderRadius: BorderRadius.circular(24),
-                  ),
-                  child: const Icon(Icons.medical_services_rounded, size: 48, color: Colors.white),
-                ),
-                const SizedBox(height: 20),
-                const Text(
-                  AppConstants.appName,
-                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.white, letterSpacing: 1.2),
-                ),
-                const SizedBox(height: 6),
-                Text(
-                  _isSignUp ? 'إنشاء حساب جديد' : 'تسجيل الدخول للمتابعة',
-                  style: const TextStyle(fontSize: 14, color: Colors.white60),
-                ),
-                const SizedBox(height: 40),
+                const SizedBox(height: 32),
+                const AppLogo(),
+                const SizedBox(height: 32),
                 Container(
                   width: double.infinity,
                   padding: const EdgeInsets.all(24),
