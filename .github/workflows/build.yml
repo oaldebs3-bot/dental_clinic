@@ -56,10 +56,10 @@ jobs:
         run: flutter build windows --debug
 
       - name: List build output
-        run: Get-ChildItem -Path build/windows -Recurse -Depth 3 | Select-Object FullName
+        run: Get-ChildItem -LiteralPath "build/windows/x64/runner/Debug" -Recurse | Select-Object FullName
 
       - name: Upload Windows
         uses: actions/upload-artifact@v4
         with:
           name: dental-clinic-windows
-          path: build/windows/runner/Debug/**
+          path: build/windows/x64/runner/Debug/
