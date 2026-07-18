@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../../widgets/app_back_button.dart';
 import '../../widgets/dental_colors.dart';
 
@@ -24,13 +25,7 @@ class PatientDetailScreen extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.medical_services_outlined, color: Colors.tealAccent),
             tooltip: 'مخطط الأسنان',
-            onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => Scaffold(
-                appBar: AppBar(leading: const AppBackButton(), title: const Text('مخطط الأسنان')),
-                body: const Center(child: Text('قريباً...', style: TextStyle(color: Colors.white54))),
-              )),
-            ),
+            onPressed: () => context.go('/dental-chart/$patientId'),
           ),
         ],
       ),
