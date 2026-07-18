@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../widgets/app_back_button.dart';
+import '../../widgets/tooth_data.dart';
 
 class DentalChartScreen extends StatelessWidget {
   final String patientId;
@@ -21,7 +22,8 @@ class DentalChartScreen extends StatelessWidget {
             padding: const EdgeInsets.all(16),
             child: Column(
               children: [
-                const SizedBox(height: 8),
+                const Text('الفك العلوي', style: TextStyle(color: Colors.white38, fontSize: 11)),
+                const SizedBox(height: 4),
                 Row(children: [
                   for (int i = 1; i <= 8; i++) _Tooth(number: i),
                 ], mainAxisAlignment: MainAxisAlignment.center),
@@ -29,7 +31,11 @@ class DentalChartScreen extends StatelessWidget {
                 Row(children: [
                   for (int i = 9; i <= 16; i++) _Tooth(number: i),
                 ], mainAxisAlignment: MainAxisAlignment.center),
-                const SizedBox(height: 24),
+                const SizedBox(height: 20),
+                Divider(color: Colors.white.withOpacity(0.1), height: 1),
+                const SizedBox(height: 20),
+                const Text('الفك السفلي', style: TextStyle(color: Colors.white38, fontSize: 11)),
+                const SizedBox(height: 4),
                 Row(children: [
                   for (int i = 17; i <= 24; i++) _Tooth(number: i),
                 ], mainAxisAlignment: MainAxisAlignment.center),
@@ -50,18 +56,27 @@ class _Tooth extends StatelessWidget {
   final int number;
   const _Tooth({required this.number});
 
+  ToothData get _data => ToothData.forNumber(number);
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => _showToothMenu(context),
       child: Container(
-        width: 36, height: 48, margin: const EdgeInsets.all(2),
+        width: 38, height: 50, margin: const EdgeInsets.all(1.5),
         decoration: BoxDecoration(
           color: Colors.white.withOpacity(0.1),
           border: Border.all(color: Colors.white.withOpacity(0.2)),
           borderRadius: BorderRadius.circular(6),
         ),
-        child: Center(child: Text('$number', style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.white))),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(_data.fdi, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.tealAccent)),
+            const SizedBox(height: 1),
+            Text('$number', style: const TextStyle(fontSize: 7, color: Colors.white38)),
+          ],
+        ),
       ),
     );
   }
@@ -78,8 +93,12 @@ class _Tooth extends StatelessWidget {
           children: [
             Container(width: 40, height: 4, decoration: BoxDecoration(color: Colors.white24, borderRadius: BorderRadius.circular(2))),
             const SizedBox(height: 16),
-            Text('السن رقم $number', style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white)),
-            const SizedBox(height: 16),
+            Text(_data.fdi, style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.tealAccent)),
+            const SizedBox(height: 4),
+            Text(_data.name, style: const TextStyle(fontSize: 16, color: Colors.white)),
+            const SizedBox(height: 4),
+            Text('السن رقم $number', style: const TextStyle(fontSize: 11, color: Colors.white38)),
+            const SizedBox(height: 20),
             const _ProcedureTile(title: 'حشو - 2026/05/12', icon: Icons.check_circle, color: Colors.green),
             const _ProcedureTile(title: 'سحب عصب - 2026/03/20', icon: Icons.check_circle, color: Colors.green),
             const Divider(color: Colors.white12),
