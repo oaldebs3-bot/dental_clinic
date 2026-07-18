@@ -55,9 +55,6 @@ jobs:
       - name: Build Windows
         run: flutter build windows --release
 
-      - name: List build output
-        run: Get-ChildItem -LiteralPath "build/windows/x64/runner/Release" -Recurse | Select-Object FullName
-
       - name: Upload Windows
         uses: actions/upload-artifact@v4
         with:
