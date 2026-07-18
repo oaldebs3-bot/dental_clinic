@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'widgets/dental_colors.dart';
 import 'core/constants.dart';
 import 'services/supabase_service.dart';
 import 'services/offline_service.dart';
@@ -23,11 +24,6 @@ void main() async {
   runApp(const ProviderScope(child: DentalClinicApp()));
 }
 
-class _DentalColors {
-  static const primary = Color(0xFF0D9488);
-  static const surface = Color(0xFF021A17);
-}
-
 class DentalClinicApp extends ConsumerWidget {
   const DentalClinicApp({super.key});
 
@@ -40,8 +36,8 @@ class DentalClinicApp extends ConsumerWidget {
       theme: ThemeData(
         useMaterial3: true,
         brightness: Brightness.dark,
-        colorSchemeSeed: _DentalColors.primary,
-        scaffoldBackgroundColor: _DentalColors.surface,
+        colorSchemeSeed: DentalColors.primary,
+        scaffoldBackgroundColor: DentalColors.surface,
         appBarTheme: const AppBarTheme(
           backgroundColor: Colors.transparent,
           elevation: 0,
