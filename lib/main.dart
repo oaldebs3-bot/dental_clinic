@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'core/constants.dart';
 import 'services/supabase_service.dart';
 import 'services/offline_service.dart';
@@ -13,6 +14,7 @@ void main() async {
   try {
     await SupabaseService().initialize();
     await OfflineService().initialize();
+    await initializeDateFormatting('ar', null);
   } catch (e) {
     runApp(ProviderScope(child: ErrorApp(error: e.toString())));
     return;
