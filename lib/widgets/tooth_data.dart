@@ -6,6 +6,7 @@ class ToothData {
   const ToothData({required this.number, required this.fdi, required this.name});
 
   static const List<ToothData> all = [
+    // Upper right (quadrant 1)
     ToothData(number: 1, fdi: '11', name: 'قاطع مركزي علوي أيمن'),
     ToothData(number: 2, fdi: '12', name: 'قاطع جانبي علوي أيمن'),
     ToothData(number: 3, fdi: '13', name: 'ناب علوي أيمن'),
@@ -14,6 +15,7 @@ class ToothData {
     ToothData(number: 6, fdi: '16', name: 'رحى أولى علوية يمنى'),
     ToothData(number: 7, fdi: '17', name: 'رحى ثانية علوية يمنى'),
     ToothData(number: 8, fdi: '18', name: 'رحى ثالثة علوية يمنى'),
+    // Upper left (quadrant 2)
     ToothData(number: 9, fdi: '21', name: 'قاطع مركزي علوي أيسر'),
     ToothData(number: 10, fdi: '22', name: 'قاطع جانبي علوي أيسر'),
     ToothData(number: 11, fdi: '23', name: 'ناب علوي أيسر'),
@@ -22,6 +24,7 @@ class ToothData {
     ToothData(number: 14, fdi: '26', name: 'رحى أولى علوية يسرى'),
     ToothData(number: 15, fdi: '27', name: 'رحى ثانية علوية يسرى'),
     ToothData(number: 16, fdi: '28', name: 'رحى ثالثة علوية يسرى'),
+    // Lower left (quadrant 3)
     ToothData(number: 17, fdi: '31', name: 'قاطع مركزي سفلي أيسر'),
     ToothData(number: 18, fdi: '32', name: 'قاطع جانبي سفلي أيسر'),
     ToothData(number: 19, fdi: '33', name: 'ناب سفلي أيسر'),
@@ -30,6 +33,7 @@ class ToothData {
     ToothData(number: 22, fdi: '36', name: 'رحى أولى سفلية يسرى'),
     ToothData(number: 23, fdi: '37', name: 'رحى ثانية سفلية يسرى'),
     ToothData(number: 24, fdi: '38', name: 'رحى ثالثة سفلية يسرى'),
+    // Lower right (quadrant 4)
     ToothData(number: 25, fdi: '41', name: 'قاطع مركزي سفلي أيمن'),
     ToothData(number: 26, fdi: '42', name: 'قاطع جانبي سفلي أيمن'),
     ToothData(number: 27, fdi: '43', name: 'ناب سفلي أيمن'),
