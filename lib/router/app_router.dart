@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/auth_provider.dart';
@@ -17,9 +18,10 @@ final routerProvider = Provider<GoRouter>((ref) {
   return GoRouter(
     initialLocation: '/login',
     redirect: (context, state) {
-      final isLoggedIn = authState.valueOrNull != null;
       final isLoginRoute = state.matchedLocation == '/login';
+      final isLoggedIn = authState.valueOrNull != null;
 
+      if (authState.isLoading) return null;
       if (!isLoggedIn && !isLoginRoute) return '/login';
       if (isLoggedIn && isLoginRoute) return '/dashboard';
       return null;
@@ -50,5 +52,14 @@ final routerProvider = Provider<GoRouter>((ref) {
         },
       ),
     ],
+    errorBuilder: (context, state) => Scaffold(
+      backgroundColor: const Color(0xFF1A1A2E),
+      body: Center(
+        child: Text(
+          'الصفحة غير موجودة',
+          style: TextStyle(color: Colors.white, fontSize: 18),
+        ),
+      ),
+    ),
   );
 });
