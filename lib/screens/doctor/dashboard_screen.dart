@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import '../../services/auth_service.dart';
 
-class DoctorDashboardScreen extends StatelessWidget {
+class DoctorDashboardScreen extends StatefulWidget {
   const DoctorDashboardScreen({super.key});
+
+  @override
+  State<DoctorDashboardScreen> createState() => _DoctorDashboardScreenState();
+}
+
+class _DoctorDashboardScreenState extends State<DoctorDashboardScreen> {
+  int _navIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +21,13 @@ class DoctorDashboardScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(title: const Text('لوحة التحكم'), actions: [
-        IconButton(icon: const Icon(Icons.logout), onPressed: () {}),
+        IconButton(
+          icon: const Icon(Icons.logout),
+          onPressed: () async {
+            await AuthService().signOut();
+            if (context.mounted) context.go('/login');
+          },
+        ),
       ]),
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -48,7 +63,12 @@ class DoctorDashboardScreen extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: NavigationBar(
-        selectedIndex: 0,
+        selectedIndex: _navIndex,
+        onDestinationSelected: (i) {
+          setState(() => _navIndex = i);
+          final routes = ['/dashboard', '/dental-chart/0', '/reports'];
+          context.go(routes[i]);
+        },
         destinations: const [
           NavigationDestination(icon: Icon(Icons.dashboard), label: 'الرئيسية'),
           NavigationDestination(icon: Icon(Icons.medical_services), label: 'الأسنان'),
