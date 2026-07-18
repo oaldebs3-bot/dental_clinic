@@ -22,6 +22,7 @@ class DentalChartScreen extends StatelessWidget {
             padding: const EdgeInsets.all(16),
             child: Column(
               children: [
+                // Jaw label
                 const Text('الفك العلوي', style: TextStyle(color: Colors.white38, fontSize: 11)),
                 const SizedBox(height: 4),
                 Row(children: [
