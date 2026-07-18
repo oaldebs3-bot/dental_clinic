@@ -28,8 +28,32 @@ jobs:
 
       - name: Build debug APK
         run: flutter build apk --debug
+
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: dental-clinic-debug
+          name: dental-clinic-apk
           path: build/app/outputs/flutter-apk/app-debug.apk
+
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Build Windows
+        run: flutter build windows --debug
+
+      - name: Upload Windows
+        uses: actions/upload-artifact@v4
+        with:
+          name: dental-clinic-windows
+          path: build/windows/runner/debug
