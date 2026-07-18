@@ -1,4 +1,4 @@
-name: Build APK
+name: Build APK & Windows
 
 on:
   workflow_dispatch:
@@ -6,7 +6,7 @@ on:
     branches: [main, master]
 
 jobs:
-  build:
+  build-android:
     runs-on: ubuntu-latest
 
     steps:
