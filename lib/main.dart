@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'widgets/dental_colors.dart';
@@ -35,11 +36,11 @@ class DentalClinicApp extends ConsumerWidget {
       title: AppConstants.appName,
       debugShowCheckedModeBanner: false,
       locale: const Locale('ar'),
-      supportedLocales: const [Locale('ar')],
       localizationsDelegates: const [
-        DefaultMaterialLocalizations.delegate,
-        DefaultWidgetsLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
       ],
+      supportedLocales: const [Locale('ar'), Locale('en')],
       theme: ThemeData(
         useMaterial3: true,
         brightness: Brightness.dark,
