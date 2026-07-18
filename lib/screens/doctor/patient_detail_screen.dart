@@ -1,18 +1,38 @@
 import 'package:flutter/material.dart';
-import '../../models/patient.dart';
 import '../../widgets/app_back_button.dart';
 import '../../widgets/dental_colors.dart';
 
 class PatientDetailScreen extends StatelessWidget {
-  final Patient patient;
-  const PatientDetailScreen({super.key, required this.patient});
+  final String patientId;
+  final String patientName;
+  final String patientPhone;
+
+  const PatientDetailScreen({
+    super.key,
+    required this.patientId,
+    this.patientName = 'مريض',
+    this.patientPhone = '',
+  });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: const AppBackButton(),
-        title: Text(patient.fullName),
+        title: Text(patientName),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.medical_services_outlined, color: Colors.tealAccent),
+            tooltip: 'مخطط الأسنان',
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => Scaffold(
+                appBar: AppBar(leading: const AppBackButton(), title: const Text('مخطط الأسنان')),
+                body: const Center(child: Text('قريباً...', style: TextStyle(color: Colors.white54))),
+              )),
+            ),
+          ),
+        ],
       ),
       body: Container(
         decoration: const BoxDecoration(
@@ -32,16 +52,16 @@ class PatientDetailScreen extends StatelessWidget {
                       CircleAvatar(
                         radius: 32,
                         backgroundColor: DentalColors.primary.withOpacity(0.2),
-                        child: Text(patient.fullName[0], style: const TextStyle(fontSize: 24, color: Colors.tealAccent)),
+                        child: Text(patientName[0], style: const TextStyle(fontSize: 24, color: Colors.tealAccent)),
                       ),
                       const SizedBox(width: 16),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(patient.fullName, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white)),
+                          Text(patientName, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white)),
                           const SizedBox(height: 4),
-                          Text(patient.phone, style: const TextStyle(color: Colors.white54)),
-                          if (patient.gender != null) Text(patient.gender == 'male' ? 'ذكر' : 'أنثى', style: const TextStyle(color: Colors.white54)),
+                          Text(patientPhone, style: const TextStyle(color: Colors.white54)),
+                          Text('رقم الملف: $patientId', style: const TextStyle(color: Colors.white38, fontSize: 11)),
                         ],
                       ),
                     ]),
@@ -50,24 +70,19 @@ class PatientDetailScreen extends StatelessWidget {
                 const SizedBox(height: 24),
                 const Text('سجل العلاج', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white)),
                 const SizedBox(height: 12),
-                ListView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: 3,
-                  itemBuilder: (_, i) => Card(
-                    color: DentalColors.card,
-                    margin: const EdgeInsets.only(bottom: 8),
-                    child: ListTile(
-                      leading: CircleAvatar(
-                        backgroundColor: DentalColors.primary.withOpacity(0.15),
-                        child: const Icon(Icons.medical_services, color: Colors.tealAccent),
-                      ),
-                      title: Text('زيارة ${i + 1} — ${i == 0 ? "حشو ضرس" : i == 1 ? "خلع" : "تنظيف"}', style: const TextStyle(color: Colors.white)),
-                      subtitle: Text('${14 - i}/7/2026', style: const TextStyle(color: Colors.white54)),
-                      trailing: const Icon(Icons.chevron_left, color: Colors.white38),
+                ...List.generate(3, (i) => Card(
+                  color: DentalColors.card,
+                  margin: const EdgeInsets.only(bottom: 8),
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      backgroundColor: DentalColors.primary.withOpacity(0.15),
+                      child: const Icon(Icons.medical_services, color: Colors.tealAccent),
                     ),
+                    title: Text('زيارة ${i + 1} — ${["حشو ضرس", "خلع", "تنظيف"][i]}', style: const TextStyle(color: Colors.white)),
+                    subtitle: Text('${14 - i}/7/2026', style: const TextStyle(color: Colors.white54)),
+                    trailing: const Icon(Icons.chevron_left, color: Colors.white38),
                   ),
-                ),
+                )),
                 const SizedBox(height: 24),
                 const Text('المواعيد القادمة', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white)),
                 const SizedBox(height: 12),
