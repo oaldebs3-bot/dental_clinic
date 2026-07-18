@@ -84,6 +84,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 const SizedBox(height: 32),
                 const AppLogo(),
                 const SizedBox(height: 32),
+                Text(
+                  _isSignUp ? 'إنشاء حساب جديد' : 'تسجيل الدخول للمتابعة',
+                  style: const TextStyle(fontSize: 14, color: Colors.white60),
+                ),
+                const SizedBox(height: 40),
                 Container(
                   width: double.infinity,
                   padding: const EdgeInsets.all(24),
