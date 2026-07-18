@@ -46,6 +46,9 @@ jobs:
         with:
           channel: 'stable'
 
+      - name: Add Windows platform
+        run: flutter create --platforms windows .
+
       - name: Install dependencies
         run: flutter pub get
 
@@ -56,4 +59,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: dental-clinic-windows
-          path: build/windows/runner/debug
+          path: build/windows/runner/Debug
