@@ -26,7 +26,6 @@ void main() async {
 class _DentalColors {
   static const primary = Color(0xFF0D9488);
   static const surface = Color(0xFF021A17);
-  static const card = Color(0xFF0A2E2A);
 }
 
 class DentalClinicApp extends ConsumerWidget {
@@ -48,11 +47,6 @@ class DentalClinicApp extends ConsumerWidget {
           elevation: 0,
           centerTitle: true,
           titleTextStyle: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600),
-        ),
-        cardTheme: CardTheme(
-          color: _DentalColors.card,
-          elevation: 0,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
         ),
         inputDecorationTheme: InputDecorationTheme(
           filled: true,
