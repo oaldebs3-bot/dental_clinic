@@ -9,7 +9,7 @@ class PatientListScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final patientsAsync = ref.watch(patientsStreamProvider);
+    final patientsAsync = ref.watch(patientsFutureProvider);
 
     return Scaffold(
       appBar: AppBar(title: const Text('قائمة المرضى')),
@@ -23,40 +23,56 @@ class PatientListScreen extends ConsumerWidget {
             error: (e, _) => Center(child: Text('خطأ: $e', style: const TextStyle(color: Colors.redAccent))),
             data: (patients) {
               if (patients.isEmpty) {
-                return const Center(child: Text('لا يوجد مرضى', style: TextStyle(color: Colors.white54)));
+                return Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Text('لا يوجد مرضى', style: TextStyle(color: Colors.white54)),
+                      const SizedBox(height: 16),
+                      ElevatedButton.icon(
+                        onPressed: () => ref.invalidate(patientsFutureProvider),
+                        icon: const Icon(Icons.refresh_rounded, size: 18),
+                        label: const Text('إعادة تحميل'),
+                      ),
+                    ],
+                  ),
+                );
               }
-              return ListView.builder(
-                padding: const EdgeInsets.all(16),
-                itemCount: patients.length,
-                itemBuilder: (_, i) {
-                  final p = patients[i];
-                  return Card(
-                    color: DentalColors.card,
-                    margin: const EdgeInsets.only(bottom: 8),
-                    child: ListTile(
-                      leading: CircleAvatar(
-                        backgroundColor: DentalColors.primary.withOpacity(0.2),
-                        child: Text((p['full_name'] as String? ?? '?')[0], style: const TextStyle(color: Colors.tealAccent)),
+              return RefreshIndicator(
+                onRefresh: () async { ref.invalidate(patientsFutureProvider); },
+                child: ListView.builder(
+                  padding: const EdgeInsets.all(16),
+                  itemCount: patients.length,
+                  itemBuilder: (_, i) {
+                    final p = patients[i];
+                    return Card(
+                      color: DentalColors.card,
+                      margin: const EdgeInsets.only(bottom: 8),
+                      child: ListTile(
+                        leading: CircleAvatar(
+                          backgroundColor: DentalColors.primary.withOpacity(0.2),
+                          child: Text((p['full_name'] as String? ?? '?')[0], style: const TextStyle(color: Colors.tealAccent)),
+                        ),
+                        title: Text(p['full_name'] ?? '', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w500)),
+                        subtitle: Text(p['phone'] ?? '', style: const TextStyle(color: Colors.white54)),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                              icon: const Icon(Icons.edit_outlined, color: Colors.white38),
+                              onPressed: () => context.go('/patient/${p['id']}'),
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.medical_services_rounded, color: Colors.tealAccent),
+                              onPressed: () => context.go('/dental-chart/${p['id']}'),
+                            ),
+                          ],
+                        ),
+                        onTap: () => context.go('/patient/${p['id']}'),
                       ),
-                      title: Text(p['full_name'] ?? '', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w500)),
-                      subtitle: Text(p['phone'] ?? '', style: const TextStyle(color: Colors.white54)),
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.edit_outlined, color: Colors.white38),
-                            onPressed: () => context.go('/patient/${p['id']}'),
-                          ),
-                          IconButton(
-                            icon: const Icon(Icons.medical_services_rounded, color: Colors.tealAccent),
-                            onPressed: () => context.go('/dental-chart/${p['id']}'),
-                          ),
-                        ],
-                      ),
-                      onTap: () => context.go('/patient/${p['id']}'),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               );
             },
           ),
