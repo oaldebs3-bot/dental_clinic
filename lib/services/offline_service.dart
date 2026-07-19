@@ -11,12 +11,34 @@ class OfflineService {
   static const String _pendingOpsBox = 'pending_operations';
 
   Future<void> initialize() async {
-    await Hive.initFlutter();
-    await Hive.openBox<String>(_patientsBox);
-    await Hive.openBox<String>(_appointmentsBox);
-    await Hive.openBox<String>(_recordsBox);
-    await Hive.openBox<String>(_billingBox);
-    await Hive.openBox<String>(_pendingOpsBox);
+    try {
+      await Hive.initFlutter();
+    } catch (_) {}
+    try { await Hive.openBox<String>(_patientsBox); } catch (_) {}
+    try { await Hive.openBox<String>(_appointmentsBox); } catch (_) {}
+    try { await Hive.openBox<String>(_recordsBox); } catch (_) {}
+    try { await Hive.openBox<String>(_billingBox); } catch (_) {}
+    try { await Hive.openBox<String>(_pendingOpsBox); } catch (_) {}
+  }
+
+  Future<void> cacheMaps(String boxName, List<Map<String, dynamic>> items) async {
+    try {
+      final box = Hive.box<String>(boxName);
+      await box.clear();
+      for (final item in items) {
+        final id = item['id']?.toString() ?? '';
+        if (id.isNotEmpty) await box.put(id, jsonEncode(item));
+      }
+    } catch (_) {}
+  }
+
+  List<Map<String, dynamic>> getCachedMaps(String boxName) {
+    try {
+      final box = Hive.box<String>(boxName);
+      return box.values.map((v) => jsonDecode(v) as Map<String, dynamic>).toList();
+    } catch (_) {
+      return [];
+    }
   }
 
   Future<void> cachePatients(List<Patient> patients) async {
