@@ -52,12 +52,15 @@ class _PatientFormScreenState extends ConsumerState<PatientFormScreen> {
       if (widget.patient != null) {
         await client.from('patients').update(data).eq('id', widget.patient!['id']);
       } else {
+        final uid = client.auth.currentUser?.id;
+        if (uid == null) { throw Exception('يجب تسجيل الدخول أولاً'); }
+        data['user_id'] = uid;
         await client.from('patients').insert(data);
       }
       ref.invalidate(patientsFutureProvider);
       if (mounted) Navigator.pop(context, true);
     } catch (e) {
-      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('خطأ: $e'), backgroundColor: Colors.redAccent));
+      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('$e'), backgroundColor: Colors.redAccent));
     } finally {
       if (mounted) setState(() => _saving = false);
     }
