@@ -40,9 +40,10 @@ class _BookAppointmentScreenState extends ConsumerState<BookAppointmentScreen> {
         'end_time': end.toUtc().toIso8601String(),
         'status': 'scheduled',
       });
+      ref.invalidate(appointmentsFutureProvider);
       if (mounted) Navigator.pop(context, true);
     } catch (e) {
-      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('خطأ: $e')));
+      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('$e')));
     } finally {
       if (mounted) setState(() => _saving = false);
     }
