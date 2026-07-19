@@ -8,8 +8,8 @@ class ReportsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final billingAsync = ref.watch(billingStreamProvider);
-    final patientsAsync = ref.watch(patientsStreamProvider);
+    final billingAsync = ref.watch(billingFutureProvider);
+    final patientsAsync = ref.watch(patientsFutureProvider);
 
     return Scaffold(
       appBar: AppBar(title: const Text('التقارير المالية')),
