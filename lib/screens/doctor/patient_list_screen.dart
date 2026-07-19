@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../providers/supabase_providers.dart';
+import '../../widgets/app_back_button.dart';
 import '../../widgets/dental_colors.dart';
 
 class PatientListScreen extends ConsumerWidget {
@@ -12,7 +13,7 @@ class PatientListScreen extends ConsumerWidget {
     final patientsAsync = ref.watch(patientsFutureProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('قائمة المرضى')),
+      appBar: AppBar(leading: const AppBackButton(), title: const Text('قائمة المرضى')),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [Color(0xFF0D9488), Color(0xFF021A17)]),
