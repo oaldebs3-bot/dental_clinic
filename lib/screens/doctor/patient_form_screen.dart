@@ -42,6 +42,7 @@ class _PatientFormScreenState extends ConsumerState<PatientFormScreen> {
     setState(() => _saving = true);
     try {
       final client = ref.read(supabaseClientProvider);
+      if (client == null) { throw Exception('Supabase غير متصل. تأكد من اتصال الإنترنت.'); }
       final data = {
         'full_name': _nameCtrl.text.trim(),
         'phone': _phoneCtrl.text.trim(),
@@ -53,9 +54,10 @@ class _PatientFormScreenState extends ConsumerState<PatientFormScreen> {
       } else {
         await client.from('patients').insert(data);
       }
+      ref.invalidate(patientsFutureProvider);
       if (mounted) Navigator.pop(context, true);
     } catch (e) {
-      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('خطأ: $e')));
+      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('خطأ: $e'), backgroundColor: Colors.redAccent));
     } finally {
       if (mounted) setState(() => _saving = false);
     }
