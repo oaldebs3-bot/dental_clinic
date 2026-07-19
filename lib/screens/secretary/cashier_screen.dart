@@ -8,7 +8,7 @@ class CashierScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final billingAsync = ref.watch(billingStreamProvider);
+    final billingAsync = ref.watch(billingFutureProvider);
 
     return Scaffold(
       appBar: AppBar(title: const Text('الصندوق')),
@@ -48,8 +48,11 @@ class CashierScreen extends ConsumerWidget {
                       trailing: b['status'] != 'paid'
                           ? GestureDetector(
                               onTap: () async {
-                                final client = ref.read(supabaseClientProvider);
-                                await client.from('billing').update({'paid_amount': b['total_amount'], 'status': 'paid'}).eq('id', b['id']);
+                                try {
+                                  final client = ref.read(supabaseClientProvider);
+                                  if (client != null) { await client.from('billing').update({'paid_amount': b['total_amount'], 'status': 'paid'}).eq('id', b['id']); }
+                                } catch (_) {}
+                                ref.invalidate(billingFutureProvider);
                               },
                               child: Container(
                                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
