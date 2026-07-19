@@ -29,6 +29,7 @@ class _BookAppointmentScreenState extends ConsumerState<BookAppointmentScreen> {
     setState(() => _saving = true);
     try {
       final client = ref.read(supabaseClientProvider);
+      if (client == null) { throw Exception('Supabase غير متصل'); }
       final start = DateTime(_selectedDate.year, _selectedDate.month, _selectedDate.day, _startTime.hour, _startTime.minute);
       final end = DateTime(_selectedDate.year, _selectedDate.month, _selectedDate.day, _endTime.hour, _endTime.minute);
       await client.from('appointments').insert({
@@ -49,7 +50,7 @@ class _BookAppointmentScreenState extends ConsumerState<BookAppointmentScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final patientsAsync = ref.watch(patientsStreamProvider);
+    final patientsAsync = ref.watch(patientsFutureProvider);
     final dateStr = DateFormat('d/M/yyyy').format(_selectedDate);
 
     return Scaffold(
