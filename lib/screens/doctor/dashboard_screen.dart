@@ -30,9 +30,9 @@ class _DoctorDashboardScreenState extends ConsumerState<DoctorDashboardScreen> {
   Widget build(BuildContext context) {
     final now = DateTime.now();
     final dateStr = DateFormat('EEEE, d MMMM y', 'ar').format(now);
-    final patientsAsync = ref.watch(patientsStreamProvider);
-    final appointmentsAsync = ref.watch(appointmentsStreamProvider);
-    final billingAsync = ref.watch(billingStreamProvider);
+    final patientsAsync = ref.watch(patientsFutureProvider);
+    final appointmentsAsync = ref.watch(appointmentsFutureProvider);
+    final billingAsync = ref.watch(billingFutureProvider);
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -55,15 +55,15 @@ class _DoctorDashboardScreenState extends ConsumerState<DoctorDashboardScreen> {
                 const SizedBox(height: 24),
                 Row(children: [
                   Expanded(child: _StatCard(icon: Icons.people_alt_rounded, label: 'عدد المرضى',
-                    value: patientsAsync.valueOrNull?.length.toString() ?? '...',
+                    value: patientsAsync.valueOrNull?.length.toString() ?? '0',
                     gradient: const [Color(0xFF2563EB), Color(0xFF1D4ED8)])),
                   const SizedBox(width: 10),
                   Expanded(child: _StatCard(icon: Icons.schedule_rounded, label: 'مواعيد اليوم',
-                    value: appointmentsAsync.valueOrNull?.length.toString() ?? '...',
+                    value: appointmentsAsync.valueOrNull?.length.toString() ?? '0',
                     gradient: const [Color(0xFF059669), Color(0xFF047857)])),
                   const SizedBox(width: 10),
                   Expanded(child: _StatCard(icon: Icons.attach_money_rounded, label: 'إيرادات',
-                    value: billingAsync.valueOrNull?.fold<double>(0, (s, b) => s + (b['paid_amount'] ?? 0)).toString() ?? '...',
+                    value: billingAsync.valueOrNull?.fold<double>(0, (s, b) => s + (b['paid_amount'] ?? 0)).toString() ?? '0',
                     gradient: const [Color(0xFFD97706), Color(0xFFB45309)])),
                 ]),
                 const SizedBox(height: 24),
