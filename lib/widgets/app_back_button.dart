@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class AppBackButton extends StatelessWidget {
   final VoidCallback? onPressed;
@@ -9,7 +10,7 @@ class AppBackButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       icon: const Icon(Icons.arrow_back_ios_rounded),
-      onPressed: onPressed ?? () => Navigator.of(context).pop(),
+      onPressed: onPressed ?? () => context.pop(),
       tooltip: 'رجوع',
     );
   }
