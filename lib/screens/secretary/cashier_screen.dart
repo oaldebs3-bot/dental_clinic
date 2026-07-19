@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../providers/supabase_providers.dart';
+import '../../widgets/app_back_button.dart';
 import '../../widgets/dental_colors.dart';
 
 class CashierScreen extends ConsumerWidget {
@@ -11,7 +12,7 @@ class CashierScreen extends ConsumerWidget {
     final billingAsync = ref.watch(billingFutureProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('الصندوق')),
+      appBar: AppBar(leading: const AppBackButton(), title: const Text('الصندوق')),
       body: Container(
         decoration: const BoxDecoration(gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [Color(0xFF0D9488), Color(0xFF021A17)])),
         child: SafeArea(
