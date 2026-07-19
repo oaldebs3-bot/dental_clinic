@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../providers/supabase_providers.dart';
+import '../../widgets/app_back_button.dart';
 import '../../widgets/dental_colors.dart';
 import '../../widgets/confirm_dialog.dart';
 
@@ -13,7 +14,7 @@ class AppointmentsScreen extends ConsumerWidget {
     final appointmentsAsync = ref.watch(appointmentsFutureProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('إدارة المواعيد')),
+      appBar: AppBar(leading: const AppBackButton(), title: const Text('إدارة المواعيد')),
       body: Container(
         decoration: const BoxDecoration(gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [Color(0xFF0D9488), Color(0xFF021A17)])),
         child: SafeArea(
