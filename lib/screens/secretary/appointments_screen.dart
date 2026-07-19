@@ -10,7 +10,7 @@ class AppointmentsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final appointmentsAsync = ref.watch(appointmentsStreamProvider);
+    final appointmentsAsync = ref.watch(appointmentsFutureProvider);
 
     return Scaffold(
       appBar: AppBar(title: const Text('إدارة المواعيد')),
@@ -41,7 +41,9 @@ class AppointmentsScreen extends ConsumerWidget {
                   error: (e, _) => Center(child: Text('خطأ: $e', style: const TextStyle(color: Colors.redAccent))),
                   data: (appointments) {
                     if (appointments.isEmpty) return const Center(child: Text('لا توجد مواعيد', style: TextStyle(color: Colors.white54)));
-                    return ListView.builder(
+                    return RefreshIndicator(
+                      onRefresh: () async { ref.invalidate(appointmentsFutureProvider); },
+                      child: ListView.builder(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       itemCount: appointments.length,
                       itemBuilder: (_, i) {
@@ -60,9 +62,12 @@ class AppointmentsScreen extends ConsumerWidget {
                                     icon: const Icon(Icons.check_circle_outline, color: Colors.green),
                                     onPressed: () async {
                                       final ok = await showConfirmDialog(context, title: 'تأكيد موعد', message: 'تأكيد هذا الموعد؟');
-                                      if (ok) {
-                                        ref.read(supabaseClientProvider).from('appointments').update({'status': 'completed'}).eq('id', a['id']);
-                                      }
+                                      if (!ok) return;
+                                      try {
+                                        final c = ref.read(supabaseClientProvider);
+                                        if (c != null) { await c.from('appointments').update({'status': 'completed'}).eq('id', a['id']); }
+                                      } catch (_) {}
+                                      ref.invalidate(appointmentsFutureProvider);
                                     },
                                   ),
                                 if (a['status'] == 'scheduled')
@@ -70,9 +75,12 @@ class AppointmentsScreen extends ConsumerWidget {
                                     icon: const Icon(Icons.cancel_outlined, color: Colors.redAccent),
                                     onPressed: () async {
                                       final ok = await showConfirmDialog(context, title: 'إلغاء موعد', message: 'إلغاء هذا الموعد؟');
-                                      if (ok) {
-                                        ref.read(supabaseClientProvider).from('appointments').update({'status': 'cancelled'}).eq('id', a['id']);
-                                      }
+                                      if (!ok) return;
+                                      try {
+                                        final c = ref.read(supabaseClientProvider);
+                                        if (c != null) { await c.from('appointments').update({'status': 'cancelled'}).eq('id', a['id']); }
+                                      } catch (_) {}
+                                      ref.invalidate(appointmentsFutureProvider);
                                     },
                                   ),
                                 Chip(
@@ -86,6 +94,7 @@ class AppointmentsScreen extends ConsumerWidget {
                           ),
                         );
                       },
+                    ),
                     );
                   },
                 ),
